@@ -85,4 +85,11 @@ public class SubscriptionEntity {
         this.status = SubscriptionStatus.CANCELED;
     }
 
+    public void activate() {
+        this.status = SubscriptionStatus.ACTIVE;
+    }
+
+    public void markAsPastDue() {
+        this.status = SubscriptionStatus.PAST_DUE;
+    }
 }

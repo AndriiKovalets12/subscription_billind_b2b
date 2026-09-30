@@ -4,6 +4,7 @@ import dev.kovalets.subscription_billind_b2b.tenants.TenantEntity;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "subscription_plans")
@@ -79,5 +80,6 @@ public class SubscriptionPlanEntity {
             this.name = newName;
         }
     }
+
 }
 

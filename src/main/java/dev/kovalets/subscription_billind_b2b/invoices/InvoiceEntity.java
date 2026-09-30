@@ -45,7 +45,7 @@ public class InvoiceEntity {
     @Column(name = "version", nullable = false)
     private Long version;
 
-    @Column(name = "idempotency_key", nullable = false)
+    @Column(name = "idempotency_key", nullable = false, unique = true)
     private String idempotencyKey;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -112,5 +112,9 @@ public class InvoiceEntity {
 
     public TenantEntity getTenant() {
         return tenant;
+    }
+
+    public void setStatus(InvoiceStatus status){
+        this.status = status;
     }
 }

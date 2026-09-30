@@ -68,6 +68,33 @@ public class InvoiceService {
         return mapperToDto(createdInvoice);
     }
 
+    public InvoiceEntity createAndReturnEntity(@Valid CreateInvoiceDto invoiceToCreate){
+        Long tenantId = invoiceToCreate.tenantId();
+        Long subscriptionId = invoiceToCreate.subscriptionId();
+
+        TenantEntity tenant = tenantRepository
+                .findById(tenantId)
+                .orElseThrow(() -> new EntityNotFoundException("Tenant with id=" + tenantId + " not found."));
+
+        SubscriptionEntity subscription = subscriptionRepository
+                .findByIdAndTenantId(subscriptionId, tenantId)
+                .orElseThrow(() -> new EntityNotFoundException("Subscription with id=" + subscriptionId + " and with tenant_id=" + tenantId + " not found."));
+
+        InvoiceEntity createdInvoice = new InvoiceEntity(
+                subscription,
+                invoiceToCreate.amount(),
+                invoiceToCreate.status(),
+                invoiceToCreate.billingPeriodStart(),
+                invoiceToCreate.billingPeriodEnd(),
+                1L,
+                invoiceToCreate.idempotencyKey(),
+                tenant
+        );
+
+        invoiceRepository.save(createdInvoice);
+        return createdInvoice;
+    }
+
     private InvoiceDto mapperToDto(InvoiceEntity entity){
         return new InvoiceDto(
                 entity.getId(),
