@@ -4,12 +4,10 @@ import dev.kovalets.subscription_billind_b2b.invoices.dto.CreateInvoiceDto;
 import dev.kovalets.subscription_billind_b2b.invoices.dto.InvoiceDto;
 import dev.kovalets.subscription_billind_b2b.subscriptions.SubscriptionEntity;
 import dev.kovalets.subscription_billind_b2b.subscriptions.SubscriptionRepository;
-import dev.kovalets.subscription_billind_b2b.subscriptions.SubscriptionStatus;
 import dev.kovalets.subscription_billind_b2b.tenants.TenantEntity;
 import dev.kovalets.subscription_billind_b2b.tenants.TenantRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
-import jdk.jshell.JShell;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -2,7 +2,6 @@ package dev.kovalets.subscription_billind_b2b.subscriptions;
 
 import dev.kovalets.subscription_billind_b2b.customers.CustomerEntity;
 import dev.kovalets.subscription_billind_b2b.tenants.TenantEntity;
-import dev.kovalets.subscription_billind_b2b.users.UserEntity;
 import dev.kovalets.subscription_billind_b2b.subscription_plans.SubscriptionPlanEntity;
 import jakarta.persistence.*;
 

@@ -3,13 +3,10 @@ package dev.kovalets.subscription_billind_b2b.invoices;
 import dev.kovalets.subscription_billind_b2b.subscriptions.SubscriptionEntity;
 import dev.kovalets.subscription_billind_b2b.tenants.TenantEntity;
 import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.CurrentTimestamp;
 import org.hibernate.generator.EventType;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 
 @Entity

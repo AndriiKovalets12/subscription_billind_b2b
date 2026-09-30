@@ -45,7 +45,4 @@ public record CreateInvoiceDto(
                 ", tenantId=" + tenantId +
                 '}';
     }
-
-    public void updateStatus(InvoiceStatus invoiceStatus) {
-    }
 }
