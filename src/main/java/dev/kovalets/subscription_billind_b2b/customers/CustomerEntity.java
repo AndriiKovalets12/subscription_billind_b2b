@@ -8,7 +8,8 @@ import jakarta.persistence.*;
         uniqueConstraints = {@UniqueConstraint(columnNames = {"external_customer_id", "tenant_id"})})
 public class CustomerEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customers_seq_gen")
+    @SequenceGenerator(name = "customers_seq_gen", sequenceName = "customers_seq")
     private Long id;
 
     @Column(name = "first_name", nullable = false, length = 50)
@@ -24,10 +25,10 @@ public class CustomerEntity {
     private String externalCustomerId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tenantId", nullable = false)
+    @JoinColumn(name = "tenant_id", nullable = false)
     private TenantEntity tenant;
 
-    @Column(name = "isActive", nullable = false)
+    @Column(name = "is_active", nullable = false)
     private boolean isActive;
 
 

@@ -1,0 +1,53 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1790874053745-1
+      author: Andrii
+      changes:
+        - createSequence:
+            sequenceName: customers_seq
+            incrementBy: 50
+        - createTable:
+            tableName: customers
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: first_name
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: VARCHAR(75)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: external_customer_id
+                  type: VARCHAR
+                  constraints:
+                    nullable: false
+              - column:
+                  name: tenant_id
+                  type: BIGINT
+                  constraints:
+                    foreignKeyName: fk_customers_tenants
+                    references: tenants(id)
+                    nullable: false
+              - column:
+                  name: is_active
+                  type: BOOLEAN
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            tableName: customers
+            columnNames: external_customer_id, tenant_id
+            constraintName: uq_customers_external_id_tenant

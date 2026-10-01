@@ -1,0 +1,53 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1790877310982-1
+      author: Andrii
+      changes:
+        - createSequence:
+            sequenceName: subscriptions_seq
+            incrementBy: 50
+        - createTable:
+            tableName: subscriptions
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: subscription_plan_id
+                  type: BIGINT
+                  constraints:
+                    foreignKeyName: fk_subscriptions_subscription-plans
+                    references: subscription_plans(id)
+                    nullable: false
+              - column:
+                  name: customer_id
+                  type: BIGINT
+                  constraints:
+                    foreignKeyName: fk_subscriptions_customers
+                    references: customers(id)
+                    nullable: false
+              - column:
+                  name: start_date
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: next_billing_date
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: VARCHAR(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: tenant_id
+                  type: BIGINT
+                  constraints:
+                    foreignKeyName: fk_subscriptions_tenants
+                    references: tenants(id)
+                    nullable: false

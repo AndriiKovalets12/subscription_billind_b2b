@@ -1,0 +1,68 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1790878685382-1
+      author: Andrii
+      changes:
+        - createSequence:
+            sequenceName: invoices_seq
+            incrementBy: 50
+        - createTable:
+            tableName: invoices
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: subscription_id
+                  type: BIGINT
+                  constraints:
+                    foreignKeyName: fk_invoices_subscriptions
+                    references: subscriptions(id)
+                    nullable: false
+              - column:
+                  name: amount
+                  type: NUMERIC(19, 4)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: VARCHAR(7)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: billing_period_start
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: billing_period_end
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: version
+                  type: BIGINT
+                  defaultValue: "1"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: idempotency_key
+                  type: VARCHAR
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: tenant_id
+                  type: BIGINT
+                  constraints:
+                    foreignKeyName: fk_invoices_tenants
+                    references: tenants(id)
+                    nullable: false

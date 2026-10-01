@@ -14,7 +14,8 @@ import java.time.OffsetDateTime;
 public class InvoiceEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "invoices_seq_gen")
+    @SequenceGenerator(name = "invoices_seq_gen", sequenceName = "invoices_seq")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -46,7 +47,7 @@ public class InvoiceEntity {
     private String idempotencyKey;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tenantId", nullable = false)
+    @JoinColumn(name = "tenant_id", nullable = false)
     private TenantEntity tenant;
 
     protected InvoiceEntity() {

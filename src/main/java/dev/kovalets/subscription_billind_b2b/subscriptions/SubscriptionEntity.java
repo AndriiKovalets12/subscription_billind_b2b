@@ -12,7 +12,8 @@ import java.time.OffsetDateTime;
 public class SubscriptionEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "subscription_gen_seq")
+    @SequenceGenerator(name = "subscription_gen_seq", sequenceName = "subscription_seq")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

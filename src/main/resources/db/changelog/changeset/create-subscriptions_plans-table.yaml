@@ -1,0 +1,44 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1790875537833-1
+      author: admin
+      changes:
+        - createSequence:
+            sequenceName: subscription_plans_seq
+            incrementBy: 50
+        - createTable:
+            tableName: subscription_plans
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: VARCHAR(25)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: cost
+                  type: numeric(19, 4)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: duration
+                  type: VARCHAR(9)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: tenant_id
+                  type: BIGINT
+                  constraints:
+                    foreignKeyName: fk_subscription-plan_tenants
+                    references: tenants(id)
+                    nullable: false
+              - column:
+                  name: is_active
+                  type: BOOLEAN
+                  constraints:
+                    nullable: false

@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1790873943575-1
+      author: Andrii
+      changes:
+        - createSequence:
+            sequenceName: tenants_seq
+            incrementBy: 50
+        - createTable:
+            tableName: tenants
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: VARCHAR(75)
+                  constraints:
+                    nullable: false
+                    unique: true
+
+

@@ -8,7 +8,8 @@ import jakarta.persistence.*;
 public class UserEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_seq_gen")
+    @SequenceGenerator(name = "users_seq_gen", sequenceName = "users_seq")
     private Long id;
 
     @Column(name = "first_name", nullable = false, length = 50)

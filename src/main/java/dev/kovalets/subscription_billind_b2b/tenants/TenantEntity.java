@@ -8,7 +8,8 @@ import jakarta.validation.constraints.Size;
 @Table(name = "tenants")
 public class TenantEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tenants_seq_gen")
+    @SequenceGenerator(name = "tenants_seq_gen", sequenceName = "tenants_seq")
     private Long id;
 
     @Column(name = "name", nullable = false, unique = true, length = 75)

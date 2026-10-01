@@ -10,7 +10,8 @@ import java.math.BigDecimal;
 public class SubscriptionPlanEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "subscription_plans_seq_gen")
+    @SequenceGenerator(name = "subscription_plans_seq_gen", sequenceName = "subscription_plans_seq")
     private Long id;
 
     @Column(name = "name", nullable = false, length = 25)
@@ -24,7 +25,7 @@ public class SubscriptionPlanEntity {
     private BillingCycle duration;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tenantId", nullable = false)
+    @JoinColumn(name = "tenant_id", nullable = false)
     private TenantEntity tenant;
 
     @Column(name = "is_active", nullable = false)
