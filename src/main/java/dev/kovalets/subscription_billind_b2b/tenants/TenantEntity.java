@@ -1,8 +1,6 @@
 package dev.kovalets.subscription_billind_b2b.tenants;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "tenants")

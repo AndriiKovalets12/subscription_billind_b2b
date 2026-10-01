@@ -40,6 +40,9 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+                  name: next_retry_date
+                  type: TIMESTAMP
+              - column:
                   name: status
                   type: VARCHAR(10)
                   constraints:
@@ -50,4 +53,9 @@ databaseChangeLog:
                   constraints:
                     foreignKeyName: fk_subscriptions_tenants
                     references: tenants(id)
+                    nullable: false
+              - column:
+                  name: payment_attempt
+                  type: INTEGER
+                  constraints:
                     nullable: false

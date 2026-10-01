@@ -17,9 +17,15 @@ public interface SubscriptionRepository extends JpaRepository<SubscriptionEntity
     Optional<SubscriptionEntity> findByIdAndTenantId(Long id, Long tenantId);
 
     @Query("SELECT s FROM SubscriptionEntity s JOIN FETCH s.customer WHERE s.status = :status AND s.nextBillingDate <= :date")
-    Page<SubscriptionEntity> findSubscriptionsByBilling(
-            @Param("status") SubscriptionStatus status,
+    Page<SubscriptionEntity> findActiveSubscriptionsByBilling(
             @Param("date")OffsetDateTime date,
+            @Param("status") SubscriptionStatus status,
+            Pageable pageable);
+
+    @Query("SELECT s FROM SubscriptionEntity s JOIN FETCH s.customer WHERE s.status = :status AND s.nextRetryDate <= :date")
+    Page<SubscriptionEntity> findPastDueSubscriptionsByBilling(
+            @Param("date")OffsetDateTime date,
+            @Param("status") SubscriptionStatus status,
             Pageable pageable);
 
 }

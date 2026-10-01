@@ -30,6 +30,9 @@ public class SubscriptionEntity {
     @Column(name = "next_billing_date", nullable = false)
     private OffsetDateTime nextBillingDate;
 
+    @Column(name = "next_retry_date")
+    private OffsetDateTime nextRetryDate;
+
     @Column(name = "status", nullable = false, length = 10)
     @Enumerated(value = EnumType.STRING)
     private SubscriptionStatus status;
@@ -37,6 +40,9 @@ public class SubscriptionEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tenant_id", nullable = false)
     private TenantEntity tenant;
+
+    @Column(name = "payment_attempt", nullable = false)
+    private Integer paymentAttempt;
 
     protected SubscriptionEntity() {
     }
@@ -51,6 +57,8 @@ public class SubscriptionEntity {
         this.nextBillingDate = nextBillingDate;
         this.status = SubscriptionStatus.ACTIVE;
         this.tenant = tenant;
+        this.paymentAttempt = 0;
+        this.nextRetryDate = null;
     }
 
     public Long getId() {
@@ -81,6 +89,10 @@ public class SubscriptionEntity {
         return tenant;
     }
 
+    public Integer getPaymentAttempt() {
+        return paymentAttempt;
+    }
+
     public void cancel() {
         this.status = SubscriptionStatus.CANCELED;
     }
@@ -91,5 +103,35 @@ public class SubscriptionEntity {
 
     public void markAsPastDue() {
         this.status = SubscriptionStatus.PAST_DUE;
+    }
+
+    public boolean incrementPaymentAttempt(){
+        if (this.paymentAttempt != 4){
+            this.paymentAttempt++;
+            return true;
+        }
+        return false;
+    }
+
+    public void resetPaymentAttempt(){
+        this.paymentAttempt = 0;
+    }
+
+    public void updateNextRetryDate(OffsetDateTime currentPeriodStart) {
+        switch (this.paymentAttempt){
+            case 1:
+                this.nextRetryDate = currentPeriodStart.plusDays(1);
+                break;
+            case 2:
+                this.nextRetryDate = currentPeriodStart.plusDays(2);
+                break;
+            case 3:
+                this.nextRetryDate = currentPeriodStart.plusDays(5);
+                break;
+        }
+    }
+
+    public void setNextBillingDate(OffsetDateTime nextBillingDate) {
+        this.nextBillingDate = nextBillingDate;
     }
 }

@@ -38,28 +38,45 @@ public class BillingScheduler {
 
         List<BillingResult> allResults = new ArrayList<>();
         do {
-            page = subscriptionRepository.findSubscriptionsByBilling(
-                    SubscriptionStatus.ACTIVE,
+            page = subscriptionRepository.findActiveSubscriptionsByBilling(
                     now,
-                    PageRequest.of(0, 100)
+                    SubscriptionStatus.ACTIVE,
+                    PageRequest.of(pageNumber, pageSize)
             );
 
-            List<CompletableFuture<BillingResult>> futures = page.getContent().stream()
-                    .map(sub -> CompletableFuture.supplyAsync(
-                            () -> billingWorker.processSubscription(sub),
-                            billingExecutor
-                    ))
-                    .toList();
-
-            List<BillingResult> batchResults = futures.stream()
-                    .map(CompletableFuture::join)
-                    .toList();
-
-            allResults.addAll(batchResults);
+            addToAllResults(page, allResults);
 
         } while (page.hasNext());
 
+        do {
+            page = subscriptionRepository.findPastDueSubscriptionsByBilling(
+                    now,
+                    SubscriptionStatus.PAST_DUE,
+                    PageRequest.of(pageNumber, pageSize)
+            );
+
+            addToAllResults(page, allResults);
+
+        } while (!page.isEmpty());
+
+
+
         return generateReport(allResults);
+    }
+
+    private void addToAllResults(Page<SubscriptionEntity> page, List<BillingResult> allResults) {
+        List<CompletableFuture<BillingResult>> futures = page.getContent().stream()
+                .map(sub -> CompletableFuture.supplyAsync(
+                        () -> billingWorker.processSubscription(sub),
+                        billingExecutor
+                ))
+                .toList();
+
+        List<BillingResult> batchResults = futures.stream()
+                .map(CompletableFuture::join)
+                .toList();
+
+        allResults.addAll(batchResults);
     }
 
     private BillingReportDto generateReport(List<BillingResult> resultList){

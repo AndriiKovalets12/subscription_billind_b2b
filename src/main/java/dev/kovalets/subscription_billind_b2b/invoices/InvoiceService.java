@@ -40,6 +40,11 @@ public class InvoiceService {
     }
 
     public InvoiceDto create(@Valid CreateInvoiceDto invoiceToCreate){
+
+        if (invoiceRepository.existsByIdempotencyKey(invoiceToCreate.idempotencyKey())){
+            return mapperToDto(invoiceRepository.findByIdempotencyKey(invoiceToCreate.idempotencyKey()));
+        }
+
         Long tenantId = invoiceToCreate.tenantId();
         Long subscriptionId = invoiceToCreate.subscriptionId();
 
@@ -67,6 +72,11 @@ public class InvoiceService {
     }
 
     public InvoiceEntity createAndReturnEntity(@Valid CreateInvoiceDto invoiceToCreate){
+
+        if (invoiceRepository.existsByIdempotencyKey(invoiceToCreate.idempotencyKey())){
+            return invoiceRepository.findByIdempotencyKey(invoiceToCreate.idempotencyKey());
+        }
+
         Long tenantId = invoiceToCreate.tenantId();
         Long subscriptionId = invoiceToCreate.subscriptionId();
 
